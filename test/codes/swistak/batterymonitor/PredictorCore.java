@@ -1,1 +1,0 @@
-../../../../app/src/codes/swistak/batterymonitor/PredictorCore.java
