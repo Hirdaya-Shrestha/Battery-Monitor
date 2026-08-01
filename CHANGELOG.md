@@ -14,7 +14,7 @@
 ### Fixed
 
 - Use localized decimal separator in notifications.
-- Wrong time formatting on Samsung phones (#87).
+- Wrong time formatting on Samsung phones (#95).
 
 ### Development
 
