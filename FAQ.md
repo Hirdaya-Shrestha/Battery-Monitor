@@ -15,7 +15,7 @@ No, estimations aren't counted based on logs.
 1. If you don't see this option, it means that you don't have at least Android 16.
 2. Check if "Live Updates" are enabled for the app's notifications in device settings.
 3. You can always try to turn them off and on again, just in case.
-4. There's a chance that even if you have at least Android 16, your system doesn't support Live Updates or doesn't support live updates for all apps (e.g., some Samsung devices). Sometimes it's possible to turn them on via the device's Developer options.
+4. There's a chance that even if you have at least Android 16, your system doesn't support Live Updates or doesn't support them for all apps (e.g., some Samsung devices). Sometimes it's possible to turn them on via the device's Developer options.
 
 ## The status bar icon doesn't show percentage or temperature. Why?
 
