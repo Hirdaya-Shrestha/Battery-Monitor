@@ -1,0 +1,42 @@
+name: Tag Merged Release Pull Request
+
+on:
+  pull_request:
+    types:
+      - closed
+
+permissions:
+  contents: write
+
+jobs:
+  tag-release:
+    name: Tag merged release
+    if: >-
+      github.event.pull_request.merged == true &&
+      github.event.pull_request.base.ref == 'master' &&
+      (startsWith(github.event.pull_request.head.ref, 'chore/release-') ||
+      startsWith(github.event.pull_request.title, 'chore: release'))
+    runs-on: ubuntu-latest
+    env:
+      PR_TITLE: ${{ github.event.pull_request.title }}
+      MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+      GH_TOKEN: ${{ github.token }}
+
+    steps:
+      - name: Create version tag on merge commit
+        shell: bash
+        run: |
+          if [[ ! "$PR_TITLE" =~ ^chore:\ release\ ([0-9]+)\.([0-9]+)\.([0-9]+)(-[0-9A-Za-z.-]+)?(\+[0-9A-Za-z.-]+)?$ ]]; then
+            echo "Pull request title must contain a SemVer version, for example: chore: release 1.4.0-prerelease1"
+            exit 1
+          fi
+
+          VERSION="${PR_TITLE#chore: release }"
+          gh api \
+            --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${GITHUB_REPOSITORY}/git/refs" \
+            -f "ref=refs/tags/${VERSION}" \
+            -f "sha=${MERGE_SHA}"
+
+          echo "Tagged merge commit ${MERGE_SHA} as ${VERSION}"
