@@ -353,9 +353,10 @@
   <string name="pref_enable_battery_current_summary" formatted="false">Zobraziť prúd batérie v hlavnom okne?</string>
   <string name="pref_enable_battery_current_help" formatted="false">Po povolení sa prúd batérie zobrazí v hlavnom okne a sprístupnia sa súvisiace možnosti.</string>
 
-  <string name="pref_use_privileged_battery_current" formatted="false">V prípade potreby použiť privilegovaný prístup</string>
-  <string name="pref_use_privileged_battery_current_summary" formatted="false">Povoliť privilegovaný prístup ako zálohu, keď bežné metódy nedokážu prečítať prúd?</string>
-  <string name="pref_use_privileged_battery_current_help" formatted="false">Po povolení môže Battery Monitor použiť root alebo Shizuku iba vtedy, keď Android ani súborový systém neposkytnú údaj. Potrebné povolenie sa vyžiada pri zapnutí.</string>
+  <string name="pref_cat_privileged_access" formatted="false">Privilegovaný prístup</string>
+  <string name="pref_use_privileged_access" formatted="false">Použiť privilegovaný prístup</string>
+  <string name="pref_use_privileged_access_summary" formatted="false">Použiť udelený prístup root alebo Shizuku na úplnejšie a presnejšie údaje zariadenia?</string>
+  <string name="pref_use_privileged_access_help" formatted="false">Privilegovaný prístup môže sprístupniť ďalšie údaje zariadenia a zlepšiť niektoré merania. Battery Monitor používa iba prístup root alebo Shizuku, ktorý výslovne udelíte.</string>
 
   <string name="pref_battery_current_multiplier" formatted="false">Násobiteľ</string>
   <string name="pref_battery_current_multiplier_detect_automatically" formatted="false">Zistiť automaticky</string>
@@ -655,4 +656,65 @@
   <string name="diagnostics_database_failed" formatted="false">Kontrola databázy zlyhala. Reštartujte aplikáciu a skúste to znova.</string>
   <string name="diagnostics_service_responded" formatted="false">Monitorovacia služba odpovedala</string>
   <string name="diagnostics_database_check_succeeded" formatted="false">Kontrola čítania a zápisu databázy bola úspešná</string>
+
+  <string name="charging_diagnostics_title" formatted="false">Diagnostika limitu nabíjania OEM</string>
+  <string name="charging_diagnostics_instructions_hint" formatted="false">Aby bola správa užitočná, pred zachytením snímok otvorte Pomocníka a postupujte podľa krokov prípravy.</string>
+  <string name="charging_diagnostics_capture" formatted="false">Zachytiť snímku</string>
+  <string name="charging_diagnostics_capture_summary" formatted="false">Nastavte režim nabíjania v nastaveniach zariadenia a potom zachyťte jeho signály</string>
+  <string name="charging_diagnostics_report" formatted="false">Vytvoriť porovnávaciu správu</string>
+  <string name="charging_diagnostics_report_summary" formatted="false">Najprv zachyťte aspoň dva rôzne režimy nabíjania OEM</string>
+  <string name="charging_diagnostics_clear" formatted="false">Vymazať snímky nabíjania</string>
+  <string name="charging_diagnostics_clear_summary" formatted="false">Odstrániť lokálne uložené snímky nabíjania OEM</string>
+  <string name="charging_diagnostics_choose_state" formatted="false">Ktoré nastavenie zariadenia je aktívne?</string>
+  <string name="charging_diagnostics_condition_off" formatted="false">Ochrana vypnutá / bez obmedzenia</string>
+  <string name="charging_diagnostics_condition_fixed" formatted="false">Pevný limit…</string>
+  <string name="charging_diagnostics_condition_adaptive" formatted="false">Adaptívne / inteligentné nabíjanie</string>
+  <string name="charging_diagnostics_condition_scheduled" formatted="false">Plánované nabíjanie</string>
+  <string name="charging_diagnostics_condition_other" formatted="false">Iný režim OEM</string>
+  <string name="charging_diagnostics_capturing" formatted="false">Zachytávajú sa signály nabíjania…</string>
+  <string name="charging_diagnostics_captured" formatted="false">Snímka nabíjania zachytená</string>
+  <string name="charging_diagnostics_capture_failed" formatted="false">Snímku nabíjania sa nepodarilo zachytiť</string>
+  <string name="charging_diagnostics_privileged_hint" formatted="false">S privilegovaným prístupom môžu byť dostupné ďalšie diagnostické informácie. Udeľte prístup cez Shizuku alebo root a zapnite privilegovaný prístup v rozšírených nastaveniach, aby bola správa o limite nabíjania OEM užitočnejšia.</string>
+  <plurals name="charging_diagnostics_snapshot_count">
+    <item quantity="one">Zachytená %1$d snímka. Zachyťte ďalší režim nabíjania.</item>
+    <item quantity="few">Zachytené %1$d snímky. Klepnutím porovnanie skontrolujete.</item>
+    <item quantity="many">Zachytených %1$d snímky. Klepnutím porovnanie skontrolujete.</item>
+    <item quantity="other">Zachytených %1$d snímok. Klepnutím porovnanie skontrolujete.</item>
+  </plurals>
+  <string name="charging_diagnostics_need_two" formatted="false">Najprv zachyťte aspoň dva rôzne režimy nabíjania</string>
+  <string name="charging_diagnostics_cleared" formatted="false">Snímky nabíjania odstránené</string>
+  <string name="charging_diagnostics_copy" formatted="false">Kopírovať do schránky</string>
+  <string name="charging_diagnostics_save" formatted="false">Uložiť</string>
+  <string name="charging_diagnostics_copied" formatted="false">Správa bola skopírovaná</string>
+  <string name="charging_diagnostics_help_steps" formatted="false">1. Odpojte telefón a počas snímok konfigurácie ho nechajte odpojený. Medzi snímkami meňte iba nastavenie ochrany nabíjania od výrobcu.\n
+    2. Vypnite ochranu nabíjania, počkajte 2–5 sekúnd a zachyťte snímku.\n
+    3. Vyberte pevný limit, počkajte 2–5 sekúnd a zachyťte snímku. Ak je to možné, zopakujte s iným limitom.\n
+    4. Zapnite adaptívne, inteligentné alebo plánované nabíjanie, počkajte 2–5 sekúnd a zachyťte snímku.\n
+    5. Ak porovnanie konfigurácie nie je jednoznačné, môžete sekvenciu voliteľne zopakovať počas nabíjania a zachytiť stav dostupný iba počas prevádzky.\n
+    6. Vytvorte a skontrolujte porovnávaciu správu. Údaje sa filtrujú a potenciálne citlivé hodnoty sa skryjú, pred zdieľaním však skontrolujte celú správu.</string>
+  <string name="charging_diagnostics_help_contact" formatted="false">Po kontrole správu skopírujte alebo uložte a odošlite ju e-mailom na adresu <a href="mailto:tomasz@swistak.codes">tomasz@swistak.codes</a>.</string>
+
+  <string name="activity_until_target" formatted="true">do %1$d%%</string>
+  <string name="activity_target_reached" formatted="true">cieľ dosiahnutý (%1$d%%)</string>
+
+  <string name="time_estimates_settings" formatted="false">Odhady času</string>
+  <string name="time_estimates_settings_summary" formatted="false">Vyberte spôsob výpočtu zostávajúceho času a cieľové úrovne batérie.</string>
+  <string name="time_estimates_settings_help" formatted="false">Tieto nastavenia riadia odhady času v Battery Monitor. Cieľové úrovne ovplyvňujú iba odhady; nespúšťajú ani nezastavujú nabíjanie.</string>
+  <string name="pref_cat_target_levels" formatted="false">Cieľové úrovne</string>
+  <string name="pref_charging_target_mode" formatted="false">Cieľ nabíjania</string>
+  <string name="pref_charging_target_mode_summary_device" formatted="true">Limit nabíjania zariadenia: %1$d%%</string>
+  <string name="pref_charging_target_mode_summary_custom" formatted="false">Vlastný cieľ</string>
+  <string name="pref_charging_target_mode_summary_default" formatted="false">Nebol zistený pevný limit zariadenia — používa sa 100 %.</string>
+  <string name="pref_charging_target_mode_summary_automatic_help" formatted="true">%1$s\n
+    \n
+    Ak táto hodnota nevyzerá správne, môžete pomôcť zlepšiť rozpoznávanie zariadení. Otvorte Diagnostiku a vytvorte správu o limite nabíjania OEM. Dôsledne dodržujte pokyny v Pomocníkovi.</string>
+  <string name="pref_charging_target_mode_help" formatted="false">Automaticky použije pevný limit zariadenia, ak ho Battery Monitor dokáže prečítať, inak 100 %. Adaptívne nabíjanie stále cieli na 100 %. Voľbou Vlastný prepíšete hodnotu zariadenia pre odhady.</string>
+  <string name="pref_charging_target_mode_support_help" formatted="false">Automatické rozpoznanie môže fungovať na zariadeniach Google Pixel, Samsung Galaxy, Xiaomi/Redmi/POCO, OnePlus/Oppo/Realme a Sony Xperia, ako aj na zariadeniach s GrapheneOS alebo LineageOS, najmä ak je dostupný prístup root alebo Shizuku. Vychádza zo softvérových signálov, preto dostupnosť ani presnosť nie sú zaručené ani pri uvedených výrobcoch. Fungovať môžu aj netestované modely či verzie systému z týchto rodín, zariadenia iných výrobcov však teraz nie sú automaticky rozpoznávané.</string>
+  <string name="charging_target_mode_automatic" formatted="false">Automaticky (odporúčané)</string>
+  <string name="charging_target_mode_custom" formatted="false">Vlastný</string>
+  <string name="pref_custom_charging_target" formatted="false">Vlastný cieľ nabíjania</string>
+  <string name="pref_custom_charging_target_help" formatted="false">Nastavte koncovú úroveň odhadov nabíjania, keď je cieľ nabíjania vlastný.</string>
+  <string name="pref_discharging_target" formatted="false">Cieľ vybíjania</string>
+  <string name="pref_discharging_target_help" formatted="false">Nastavte koncovú úroveň odhadov vybíjania. Je nezávislá od upozornení na slabú batériu.</string>
+  <string name="pref_target_level_summary" formatted="true">Odhadovať do %1$d%%.</string>
 </resources>

@@ -258,7 +258,7 @@
   <string name="current_state_settings_help" formatted="false">Skonfiguruj informacje wyświetlane na ekranie „Aktualny stan”. Opcje prądu baterii sterują bieżącym odczytem pokazywanym razem z innymi szczegółami o baterii.</string>
   <string name="alarm_settings_subtitle" formatted="false">Ustawienia alarmów</string>
   <string name="alarm_settings" formatted="false">Alarmy</string>
-  <string name="alarm_settings_help" formatted="false">Możesz ustawić, aby Monitor baterii powiadamiał Cię, gdy poziom naładowania Twojej baterii osiąga określony warunek (np. bateria staje się w pełni naładowana, poziom baterii spada poniżej 20% i wiele innych).</string>
+  <string name="alarm_settings_help" formatted="false">Możesz ustawić, aby Monitor baterii powiadamiał Cię, gdy poziom naładowania Twojej baterii osiąga określony warunek (np. bateria staje się w pełni naładowana, poziom naładowania baterii spada poniżej 20% i wiele innych).</string>
   <string name="other_settings" formatted="false">Ogólne</string>
   <string name="other_settings_summary" formatted="false">Skonfiguruj ogólne zachowanie aplikacji i codzienne preferencje</string>
   <string name="other_settings_help" formatted="false">Użyj tych ustawień, aby dostosować Monitor baterii do Twojego codziennego użytkowania. Obejmują ogólne zachowanie aplikacji i preferencje, co pomaga jej dopasować się naturalnie do Twojego sposobu korzystania z urządzenia.</string>
@@ -341,9 +341,10 @@
   <string name="pref_enable_battery_current_summary" formatted="false">Czy wyświetlać prąd baterii w głównym oknie?</string>
   <string name="pref_enable_battery_current_help" formatted="false">Gdy włączone, prąd baterii zostanie wyświetlony w głównym oknie i związane z nim opcje staną się dostępne.</string>
 
-  <string name="pref_use_privileged_battery_current" formatted="false">Użyj dostępu uprzywilejowanego, jeśli jest potrzebny</string>
-  <string name="pref_use_privileged_battery_current_summary" formatted="false">Czy zezwolić na dostęp uprzywilejowany jako metodę zapasową, gdy zwykłe metody nie są w stanie odczytać prądu baterii?</string>
-  <string name="pref_use_privileged_battery_current_help" formatted="false">Gdy włączone, Monitor baterii może użyć roota lub Shizuku tylko wtedy, gdy metody Androida i systemu plików nie są w stanie podać odczytu. Wymagane uprawnienie jest żądane, gdy włączysz tę opcję.</string>
+  <string name="pref_cat_privileged_access" formatted="false">Dostęp uprzywilejowany</string>
+  <string name="pref_use_privileged_access" formatted="false">Używaj dostępu uprzywilejowanego</string>
+  <string name="pref_use_privileged_access_summary" formatted="false">Czy używać przyznanego dostępu do roota albo Shizuku dla bardziej kompletnych i dokładniejszych danych urządzenia?</string>
+  <string name="pref_use_privileged_access_help" formatted="false">Dostęp uprzywilejowany może udostępniać dodatkowe dane urządzenia i poprawiać dokładność niektórych pomiarów. Monitor baterii używa wyłącznie dostępu do roota albo Shizuku, który jawnie przyznasz.</string>
 
   <string name="pref_battery_current_multiplier" formatted="false">Mnożnik</string>
   <string name="pref_battery_current_multiplier_detect_automatically" formatted="false">Wykryj automatycznie</string>
@@ -395,7 +396,7 @@
   <string name="predictor_since_status_change" formatted="false">Od zmiany stanu</string>
   <string name="predictor_long_term_ave" formatted="false">Średnie długoterminowe</string>
 
-  <string name="pref_cat_predictor" formatted="false">Szacunkowy pozostały czas</string>
+  <string name="pref_cat_predictor" formatted="false">Szacowanie pozostałego czasu</string>
   <string name="pref_prediction_type" formatted="false">Typ szacowania</string>
   <string name="pref_prediction_type_help" formatted="false">Tutaj możesz wybrać, w jaki sposób Monitor baterii będzie przewidywać pozostały czas pracy baterii/czas do pełnego naładowania.\n
     \n
@@ -476,7 +477,7 @@
   <string name="chip_switching_interval_30_seconds" formatted="false">30 sekund</string>
 
   <string name="advanced_status_waiting_permission" formatted="false">Oczekiwanie na uprawnienie do Shizuku…</string>
-  <string name="shizuku_not_running" formatted="false">Uruchom Shizuku, aby nadać Monitorowi baterii uprzywilejowany dostęp</string>
+  <string name="shizuku_not_running" formatted="false">Uruchom Shizuku, aby nadać Monitorowi baterii dostęp uprzywilejowany</string>
   <string name="shizuku_permission_denied_permanently" formatted="false">Nadaj Monitorowi baterii uprawnienie ręcznie w Shizuku</string>
   <string name="advanced_status_no_stats" formatted="false">W tej chwili nie są dostępne żadne zaawansowane statystyki baterii.</string>
   <string name="advanced_section_counters" formatted="false">Liczniki</string>
@@ -515,7 +516,7 @@
   <string name="advanced_help_charging" formatted="false">Ładowanie pokazuje wartości związane z aktywną ścieżką ładowania, takie jak maksymalny prąd lub napięcie ładowania, strategia ładowania, stan ładowania i poziom pojemności. Pola te mogą się zmieniać w zależności od ładowarki i trybu ładowania.</string>
   <string name="advanced_help_service" formatted="false">Usługa baterii Androida pokazuje nieprzetworzone pola zgłoszone przez `dumpsys battery`. Są to wartości na poziomie frameworka, które często obejmują źródło ładowania, stan baterii, temperaturę, napięcie i inne stany usługi.</string>
   <string name="advanced_help_sysfs" formatted="false">Pliki power_supply jądra pokazują nieprzetworzone jednoliniowe wartości odczytane z `/sys/class/power_supply`, takie jak węzły baterii, BMS, USB czy ładowarki bezprzewodowej. Jest to celowo niskopoziomowe i może zawierać nazwy specyficzne dla sterownika, które są przydatne głównie do debugowania.</string>
-  <string name="advanced_help_metadata" formatted="false">Metadane pokazują wysokopoziomowe właściwości baterii udostępniane przez BatteryManager, takie jak stan zdrowia, pozostały czas ładowania, szczegóły produkcyjne czy stan zamiennika. Większość tych pól wymaga uprzywilejowanego dostępu, a wiele urządzeń udostępnia jedynie niewielką ich część.</string>
+  <string name="advanced_help_metadata" formatted="false">Metadane pokazują wysokopoziomowe właściwości baterii udostępniane przez BatteryManager, takie jak stan zdrowia, pozostały czas ładowania, szczegóły produkcyjne czy stan zamiennika. Większość tych pól wymaga dostępu uprzywilejowanego, a wiele urządzeń udostępnia jedynie niewielką ich część.</string>
   <string name="advanced_help_troubleshooting_title" formatted="false">Rozwiązywanie problemów</string>
   <string name="advanced_help_troubleshooting" formatted="false">Jeśli karta jest pusta, najpierw upewnij się, że „Zaawansowane statystyki baterii” zostały włączone w ustawieniach. Na zrootowanych urządzeniach Monitor baterii najpierw próbuje użyć `su`. Na urządzeniach bez dostępu do roota Shizuku musi być zainstalowany i uruchomiony, a Monitor baterii musi mieć w nim przyznane uprawnienie. Niektóre urządzenia udostępniają jedynie kilka pól, co oznacza, że brakujące dane nie są dostępne przez Androida lub jądro na tym urządzeniu.</string>
 
@@ -644,4 +645,64 @@
   <string name="diagnostics_database_failed" formatted="false">Sprawdzenie bazy danych nie powiodło się. Uruchom ponownie aplikację i spróbuj ponownie.</string>
   <string name="diagnostics_service_responded" formatted="false">Usługa monitorowania odpowiedziała</string>
   <string name="diagnostics_database_check_succeeded" formatted="false">Sprawdzenie odczytu i zapisu bazy danych powiodło się</string>
+
+  <string name="charging_diagnostics_title" formatted="false">Diagnostyka limitu ładowania OEM</string>
+  <string name="charging_diagnostics_instructions_hint" formatted="false">Aby uzyskać przydatny raport, otwórz Pomoc i podążaj za przygotowanymi tam krokami przed wykonaniem snapshotów</string>
+  <string name="charging_diagnostics_capture" formatted="false">Wykonaj snapshot</string>
+  <string name="charging_diagnostics_capture_summary" formatted="false">Ustaw tryb ładowania w ustawieniach urządzenia, a następnie przechwyć jego sygnały</string>
+  <string name="charging_diagnostics_report" formatted="false">Utwórz raport porównawczy</string>
+  <string name="charging_diagnostics_report_summary" formatted="false">Najpierw wykonaj snapshoty co najmniej dwóch różnych trybów ładowania OEM</string>
+  <string name="charging_diagnostics_clear" formatted="false">Wyczyść snapshoty ładowania</string>
+  <string name="charging_diagnostics_clear_summary" formatted="false">Usuń lokalnie przechowywane snapshoty ładowania OEM</string>
+  <string name="charging_diagnostics_choose_state" formatted="false">Które ustawienie urządzenia jest aktywne?</string>
+  <string name="charging_diagnostics_condition_off" formatted="false">Ochrona wyłączona/bez ograniczeń</string>
+  <string name="charging_diagnostics_condition_fixed" formatted="false">Stały limit…</string>
+  <string name="charging_diagnostics_condition_adaptive" formatted="false">Ładowanie adaptacyjne/inteligentne</string>
+  <string name="charging_diagnostics_condition_scheduled" formatted="false">Zaplanowane ładowanie</string>
+  <string name="charging_diagnostics_condition_other" formatted="false">Inny tryb OEM</string>
+  <string name="charging_diagnostics_capturing" formatted="false">Przechwytywanie sygnałów ładowania…</string>
+  <string name="charging_diagnostics_captured" formatted="false">Wykonano snapshot ładowania</string>
+  <string name="charging_diagnostics_capture_failed" formatted="false">Nie udało się wykonać snapshotu ładowania</string>
+  <string name="charging_diagnostics_privileged_hint" formatted="false">Więcej informacji diagnostycznych może być dostępnych z dostępem uprzywilejowanym. Przyznaj dostęp do roota albo Shizuku i włącz dostęp uprzywilejowany w Zaawansowanych dla bardziej przydatnego raportu limitu ładowania OEM</string>
+  <plurals name="charging_diagnostics_snapshot_count">
+    <item quantity="one">Wykonano %1$d snapshot. Wykonaj kolejny dla innego trybu ładowania</item>
+    <item quantity="few">Wykonano %1$d snapshoty. Naciśnij, aby przejrzeć porównanie</item>
+    <item quantity="many">Wykonano %1$d snapshotów. Naciśnij, aby przejrzeć porównanie</item>
+  </plurals>
+  <string name="charging_diagnostics_need_two" formatted="false">Najpierw wykonaj snapshoty co najmniej dwóch różnych trybów ładowania</string>
+  <string name="charging_diagnostics_cleared" formatted="false">Usunięto snapshoty ładowania</string>
+  <string name="charging_diagnostics_copy" formatted="false">Kopiuj do schowka</string>
+  <string name="charging_diagnostics_save" formatted="false">Zapisz</string>
+  <string name="charging_diagnostics_copied" formatted="false">Skopiowano raport</string>
+  <string name="charging_diagnostics_help_steps" formatted="false">1. Odłącz telefon i pozostaw go odłączonego podczas wykonywania snapshotów konfiguracji. Zmieniaj tylko ustawienie ochrony ładowania OEM między snapshotami.\n
+    2. Wyłącz ochronę ładowania, odczekaj 2-5 sekund i wykonaj snapshot.\n
+    3. Wybierz dowolny stały limit, odczekaj 2-5 sekund i wykonaj kolejny snapshot. Powtórz to z co najmniej jednym innym stałym limitem, jeśli jest dostępny.\n
+    4. Włącz ładowanie adaptacyjne, inteligentne lub zaplanowane, odczekaj 2-5 sekund i wykonaj jeszcze jeden snapshot.\n
+    5. Jeśli porównanie konfiguracji jest niejednoznaczne, możesz opcjonalnie powtórzyć tę sekwencję podczas ładowania, aby uchwycić stan w trakcie działania.\n
+    6. Utwórz i przejrzyj raport porównawczy. Dane w raporcie są przefiltrowane, a potencjalnie wrażliwe wartości ukrywane, ale nadal powinieneś/powinnaś przejrzeć kompletny raport przed jego udostępnieniem.</string>
+  <string name="charging_diagnostics_help_contact" formatted="false">Po przejrzeniu raportu skopiuj go albo zapisz i wyślij e-mailem na <a href="mailto:tomasz@swistak.codes">tomasz@swistak.codes</a>.</string>
+
+  <string name="activity_until_target" formatted="true">do %1$d%%</string>
+  <string name="activity_target_reached" formatted="true">osiągnięto cel (%1$d%%)</string>
+
+  <string name="time_estimates_settings" formatted="false">Szacowanie czasu</string>
+  <string name="time_estimates_settings_summary" formatted="false">Wybierz, jak pozostały czas ma być obliczany i do których docelowych poziomów naładowania baterii</string>
+  <string name="time_estimates_settings_help" formatted="false">Te ustawienia sterują szacowaniem czasu przez Monitor baterii. Docelowe poziomy wpływają tylko na szacunki; Monitor baterii nie rozpoczyna ani nie zatrzymuje ładowania.</string>
+  <string name="pref_cat_target_levels" formatted="false">Docelowe poziomy</string>
+  <string name="pref_charging_target_mode" formatted="false">Cel ładowania</string>
+  <string name="pref_charging_target_mode_summary_device" formatted="true">Limit ładowania urządzenia: %1$d%%</string>
+  <string name="pref_charging_target_mode_summary_custom" formatted="false">Własny cel</string>
+  <string name="pref_charging_target_mode_summary_default" formatted="false">Nie wykryto stałego limitu w urządzeniu — używane 100%</string>
+  <string name="pref_charging_target_mode_summary_automatic_help" formatted="true">%1$s\n
+    \n
+    Jeśli ta wartość nie wygląda na prawidłową, możesz pomóc ulepszyć wykrywanie urządzeń. Otwórz Diagnostykę i wygeneruj raport limitu ładowania OEM, dokładnie przestrzegając instrukcji w Pomocy</string>
+  <string name="pref_charging_target_mode_help" formatted="false">„Automatyczny” używa stałego limitu ładowania urządzenia, gdy Monitor baterii może go odczytać, a w przeciwnym razie 100%. Ładowanie adaptacyjne nadal ma cel 100%. Wybierz „Własny”, aby nadpisać wartość urządzenia dla szacunków.</string>
+  <string name="pref_charging_target_mode_support_help" formatted="false">Automatyczne wykrywanie może działać na urządzeniach Google Pixel, Samsung Galaxy, Xiaomi/Redmi/POCO, OnePlus/Oppo/Realme i Sony Xperia, a także na urządzeniach z GrapheneOS lub LineageOS — szczególnie gdy możliwy jest dostęp do roota albo Shizuku. Opiera się na sygnałach programowych, dlatego dostępność i dokładność nie są gwarantowane nawet u wymienionych producentów. Nieprzetestowane modele lub wersje systemów z tych rodzin mogą również działać, ale urządzenia innych producentów nie są obecnie wykrywane automatycznie.</string>
+  <string name="charging_target_mode_automatic" formatted="false">Automatyczny (zalecany)</string>
+  <string name="charging_target_mode_custom" formatted="false">Własny</string>
+  <string name="pref_custom_charging_target" formatted="false">Własny cel ładowania</string>
+  <string name="pref_custom_charging_target_help" formatted="false">Ustaw poziom naładowania baterii używany jako punkt końcowy szacunków ładowania, gdy „Cel ładowania” jest „Własny”.</string>
+  <string name="pref_discharging_target" formatted="false">Cel rozładowania</string>
+  <string name="pref_discharging_target_help" formatted="false">Ustaw poziom naładowania baterii używany jako punkt końcowy szacunków rozładowania. Jest to niezależne od alarmów niskiego poziomu naładowania baterii.</string>
+  <string name="pref_target_level_summary" formatted="true">Szacuj do %1$d%%</string>
 </resources>

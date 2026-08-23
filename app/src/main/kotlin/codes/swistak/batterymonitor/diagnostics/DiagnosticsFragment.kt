@@ -10,11 +10,14 @@ package codes.swistak.batterymonitor.diagnostics
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.NotificationManager
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteFullException
+import android.graphics.Typeface
 import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
@@ -23,7 +26,12 @@ import android.os.PowerManager
 import android.os.ResultReceiver
 import android.os.SystemClock
 import android.provider.Settings
+import android.widget.FrameLayout
+import android.widget.NumberPicker
+import android.widget.ScrollView
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
@@ -38,6 +46,11 @@ import codes.swistak.batterymonitor.logs.LogResult
 import codes.swistak.batterymonitor.monitoring.BackgroundServiceWatchdog
 import codes.swistak.batterymonitor.monitoring.BatteryInfoService
 import codes.swistak.batterymonitor.monitoring.MonitoringHealthStore
+import codes.swistak.batterymonitor.monitoring.charginglimit.ChargingDiagnosticCondition
+import codes.swistak.batterymonitor.monitoring.charginglimit.ChargingDiagnosticReport
+import codes.swistak.batterymonitor.monitoring.charginglimit.ChargingDiagnosticStore
+import codes.swistak.batterymonitor.monitoring.charginglimit.ChargingLimitDiagnostics
+import codes.swistak.batterymonitor.privileged.PrivilegedAccess
 import codes.swistak.batterymonitor.settings.SettingsActivity
 import codes.swistak.batterymonitor.settings.SettingsContract
 import rikka.shizuku.Shizuku
@@ -49,6 +62,8 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
     SharedPreferences.OnSharedPreferenceChangeListener {
     companion object {
         private const val EXPORT_DIAGNOSTICS_REQUEST = 128
+        private const val EXPORT_CHARGING_DIAGNOSTICS_REQUEST = 129
+
         private const val ROOT_CHECK_COMMAND = "id"
         private const val HEALTHY_HEARTBEAT_AGE_MS = 5L * 60L * 1000L
         private const val SHIZUKU_PERMISSION_REQUEST_CODE = 7128
@@ -69,6 +84,9 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
         private const val KEY_DONT_KILL_MY_APP = "diagnostics_dont_kill_my_app"
         private const val KEY_EXPORT = "diagnostics_export"
         private const val KEY_CLEAR = "diagnostics_clear"
+        private const val KEY_CHARGING_CAPTURE = "charging_diagnostics_capture"
+        private const val KEY_CHARGING_REPORT = "charging_diagnostics_report"
+        private const val KEY_CHARGING_CLEAR = "charging_diagnostics_clear"
     }
 
     private lateinit var settingsPreferences: SharedPreferences
@@ -94,6 +112,10 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
         preferenceManager.sharedPreferencesName = SettingsContract.SETTINGS_FILE
         preferenceManager.sharedPreferencesMode = Context.MODE_PRIVATE
         settingsPreferences = requireNotNull(preferenceManager.sharedPreferences)
+        PrivilegedAccess.initialize(requireContext())
+        PrivilegedAccess.setEnabled(
+            settingsPreferences.getBoolean(SettingsContract.KEY_USE_PRIVILEGED_ACCESS, false)
+        )
         setPreferencesFromResource(R.xml.diagnostics_pref_screen, rootKey)
         bindActions()
     }
@@ -208,6 +230,20 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
             )
             true
         }
+        findPreference<Preference>(KEY_CHARGING_CAPTURE)?.setOnPreferenceClickListener {
+            showChargingConditionPicker()
+            true
+        }
+        findPreference<Preference>(KEY_CHARGING_REPORT)?.setOnPreferenceClickListener {
+            showChargingReportActions()
+            true
+        }
+        findPreference<Preference>(KEY_CHARGING_CLEAR)?.setOnPreferenceClickListener {
+            ChargingDiagnosticStore.clear(requireContext())
+            refreshChargingDiagnosticsSummary()
+            requireContext().showToast(R.string.charging_diagnostics_cleared)
+            true
+        }
     }
 
     private fun refresh() {
@@ -240,6 +276,146 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
             )
 
         refreshDebugLoggingSummary()
+        refreshChargingDiagnosticsSummary()
+    }
+
+    private fun showChargingConditionPicker() {
+        val labels = intArrayOf(
+            R.string.charging_diagnostics_condition_off,
+            R.string.charging_diagnostics_condition_fixed,
+            R.string.charging_diagnostics_condition_adaptive,
+            R.string.charging_diagnostics_condition_scheduled,
+            R.string.charging_diagnostics_condition_other
+        ).map(::getString).toTypedArray()
+        AlertDialog.Builder(requireContext()).setTitle(R.string.charging_diagnostics_choose_state)
+            .setItems(labels) { _, which ->
+                when (which) {
+                    0 -> captureChargingSnapshot(ChargingDiagnosticCondition.Off)
+                    1 -> showFixedChargingLimitPicker()
+                    2 -> captureChargingSnapshot(ChargingDiagnosticCondition.Adaptive)
+                    3 -> captureChargingSnapshot(ChargingDiagnosticCondition.Scheduled)
+                    4 -> captureChargingSnapshot(ChargingDiagnosticCondition.Other)
+                }
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
+    private fun showFixedChargingLimitPicker() {
+        val context = requireContext()
+        val horizontalPadding = (24 * resources.displayMetrics.density).toInt()
+        val picker = NumberPicker(context).apply {
+            minValue = ChargingDiagnosticCondition.MIN_FIXED_PERCENT
+            maxValue = ChargingDiagnosticCondition.MAX_FIXED_PERCENT
+            value = 80
+            wrapSelectorWheel = false
+        }
+        val container = FrameLayout(context).apply {
+            setPadding(horizontalPadding, 0, horizontalPadding, 0)
+            addView(
+                picker, FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT, FrameLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
+        AlertDialog.Builder(context).setTitle(R.string.charging_diagnostics_condition_fixed)
+            .setView(container).setPositiveButton(android.R.string.ok) { _, _ ->
+                captureChargingSnapshot(ChargingDiagnosticCondition.Fixed(picker.value))
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
+    private fun captureChargingSnapshot(condition: ChargingDiagnosticCondition) {
+        val preference = findPreference<Preference>(KEY_CHARGING_CAPTURE)
+        preference?.isEnabled = false
+        preference?.summary = getString(R.string.charging_diagnostics_capturing)
+        val context = requireContext().applicationContext
+        val privilegedEnabled = settingsPreferences.getBoolean(
+            SettingsContract.KEY_USE_PRIVILEGED_ACCESS, false
+        )
+        Thread {
+            val snapshot = runCatching {
+                ChargingLimitDiagnostics(context, { privilegedEnabled }).capture(condition)
+            }.getOrNull()
+            val snapshotCount = if (snapshot != null) {
+                ChargingDiagnosticStore.append(context, snapshot)
+                ChargingDiagnosticStore.read(context).size
+            } else {
+                0
+            }
+            mainHandler.post {
+                if (!isAdded) return@post
+                preference?.isEnabled = true
+                refreshChargingDiagnosticsSummary()
+                requireContext().showToast(
+                    if (snapshot != null) R.string.charging_diagnostics_captured
+                    else R.string.charging_diagnostics_capture_failed
+                )
+                if (snapshotCount == 1 && snapshot?.hasLimitedUnprivilegedDiscovery() == true) {
+                    AlertDialog.Builder(requireContext())
+                        .setTitle(R.string.charging_diagnostics_title)
+                        .setMessage(R.string.charging_diagnostics_privileged_hint)
+                        .setPositiveButton(android.R.string.ok, null).show()
+                }
+            }
+        }.apply { name = "charging-limit-diagnostics" }.start()
+    }
+
+    private fun refreshChargingDiagnosticsSummary() {
+        val count = ChargingDiagnosticStore.read(requireContext()).size
+        findPreference<Preference>(KEY_CHARGING_REPORT)?.apply {
+            isEnabled = count >= 2
+            summary = if (count == 0) {
+                getString(R.string.charging_diagnostics_report_summary)
+            } else {
+                resources.getQuantityString(
+                    R.plurals.charging_diagnostics_snapshot_count, count, count
+                )
+            }
+        }
+        findPreference<Preference>(KEY_CHARGING_CLEAR)?.isEnabled = count > 0
+        findPreference<Preference>(KEY_CHARGING_CAPTURE)?.summary =
+            getString(R.string.charging_diagnostics_capture_summary)
+    }
+
+    private fun showChargingReportActions() {
+        val snapshots = ChargingDiagnosticStore.read(requireContext())
+        if (snapshots.size < 2) {
+            requireContext().showToast(R.string.charging_diagnostics_need_two)
+            return
+        }
+        val report = ChargingDiagnosticReport.create(requireContext(), snapshots)
+        val context = requireContext()
+        val padding = (16 * resources.displayMetrics.density).toInt()
+        val reportView = TextView(context).apply {
+            text = report
+            typeface = Typeface.MONOSPACE
+            setTextIsSelectable(true)
+            setPadding(padding, padding, padding, padding)
+        }
+        val scrollView = ScrollView(context).apply { addView(reportView) }
+        AlertDialog.Builder(requireContext()).setTitle(R.string.charging_diagnostics_report)
+            .setView(scrollView).setPositiveButton(R.string.charging_diagnostics_copy) { _, _ ->
+                copyChargingReport(report)
+            }.setNeutralButton(R.string.charging_diagnostics_save) { _, _ ->
+                saveChargingReport()
+            }.setNegativeButton(R.string.cancel, null).show()
+    }
+
+    private fun copyChargingReport(report: String) {
+        val clipboard =
+            requireContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("OEM charging-limit diagnostics", report))
+        requireContext().showToast(R.string.charging_diagnostics_copied)
+    }
+
+    private fun saveChargingReport() {
+        val timestamp = SimpleDateFormat(
+            "yyyy-MM-dd-HHmmss", Locale.getDefault()
+        ).format(Date())
+        startActivityForResult(
+            Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
+                .setType("text/plain").putExtra(
+                    Intent.EXTRA_TITLE, "battery_monitor_charging_diagnostics_$timestamp.txt"
+                ), EXPORT_CHARGING_DIAGNOSTICS_REQUEST
+        )
     }
 
     private fun refreshMonitoringStatus() {
@@ -497,7 +673,30 @@ class DiagnosticsFragment : PreferenceFragmentCompat(),
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val uri: Uri = data?.data ?: return
-        if (requestCode != EXPORT_DIAGNOSTICS_REQUEST || resultCode != Activity.RESULT_OK) return
+        if (resultCode != Activity.RESULT_OK) return
+
+        if (requestCode == EXPORT_CHARGING_DIAGNOSTICS_REQUEST) {
+            val context = requireContext().applicationContext
+            Thread {
+                val success = runCatching {
+                    val report = ChargingDiagnosticReport.create(
+                        context, ChargingDiagnosticStore.read(context)
+                    )
+                    requireNotNull(context.contentResolver.openOutputStream(uri)).bufferedWriter()
+                        .use { it.write(report) }
+                }.isSuccess
+                mainHandler.post {
+                    if (!isAdded) return@post
+                    requireContext().showToast(
+                        if (success) R.string.diagnostics_exported
+                        else R.string.diagnostics_export_failed, Toast.LENGTH_SHORT
+                    )
+                }
+            }.apply { name = "charging-diagnostics-export" }.start()
+            return
+        }
+
+        if (requestCode != EXPORT_DIAGNOSTICS_REQUEST) return
 
         Thread {
             val success = runCatching {

@@ -327,9 +327,10 @@
   <string name="pref_enable_battery_current_summary" formatted="false">メイン画面にバッテリー電流を表示しますか？</string>
   <string name="pref_enable_battery_current_help" formatted="false">有効にすると、メイン画面にバッテリー電流が表示され、関連する設定が利用できます。</string>
 
-  <string name="pref_use_privileged_battery_current" formatted="false">必要な場合に特権アクセスを使用</string>
-  <string name="pref_use_privileged_battery_current_summary" formatted="false">通常の方法で電流を読み取れない場合、特権アクセスを予備の方法として許可しますか？</string>
-  <string name="pref_use_privileged_battery_current_help" formatted="false">有効にすると、Android とファイルシステムの方法で値を取得できない場合に限り、Battery Monitor が root または Shizuku を使用します。必要な権限は有効化時に要求されます。</string>
+  <string name="pref_cat_privileged_access" formatted="false">特権アクセス</string>
+  <string name="pref_use_privileged_access" formatted="false">特権アクセスを使用</string>
+  <string name="pref_use_privileged_access_summary" formatted="false">許可済みの root または Shizuku アクセスを使用して、より完全で正確な端末データを取得しますか？</string>
+  <string name="pref_use_privileged_access_help" formatted="false">特権アクセスにより、追加の端末データを取得し、一部の測定を改善できる場合があります。Battery Monitor は、明示的に許可された root または Shizuku アクセスのみを使用します。</string>
 
   <string name="pref_battery_current_multiplier" formatted="false">倍率</string>
   <string name="pref_battery_current_multiplier_detect_automatically" formatted="false">自動検出</string>
@@ -627,4 +628,62 @@
   <string name="diagnostics_database_failed" formatted="false">データベースの確認に失敗しました。アプリを再起動して、もう一度お試しください。</string>
   <string name="diagnostics_service_responded" formatted="false">監視サービスが応答しました</string>
   <string name="diagnostics_database_check_succeeded" formatted="false">データベースの読み書き確認に成功しました</string>
+
+  <string name="charging_diagnostics_title" formatted="false">OEM充電上限の診断</string>
+  <string name="charging_diagnostics_instructions_hint" formatted="false">有用なレポートを作成するには、スナップショットを取得する前にヘルプを開き、準備手順に従ってください。</string>
+  <string name="charging_diagnostics_capture" formatted="false">スナップショットを取得</string>
+  <string name="charging_diagnostics_capture_summary" formatted="false">端末設定で充電モードを選び、その信号を取得します</string>
+  <string name="charging_diagnostics_report" formatted="false">比較レポートを作成</string>
+  <string name="charging_diagnostics_report_summary" formatted="false">最初に2種類以上のOEM充電モードを取得してください</string>
+  <string name="charging_diagnostics_clear" formatted="false">充電スナップショットを消去</string>
+  <string name="charging_diagnostics_clear_summary" formatted="false">端末内に保存したOEM充電スナップショットを削除します</string>
+  <string name="charging_diagnostics_choose_state" formatted="false">どの端末設定が有効ですか？</string>
+  <string name="charging_diagnostics_condition_off" formatted="false">保護オフ / 制限なし</string>
+  <string name="charging_diagnostics_condition_fixed" formatted="false">固定上限…</string>
+  <string name="charging_diagnostics_condition_adaptive" formatted="false">アダプティブ / スマート充電</string>
+  <string name="charging_diagnostics_condition_scheduled" formatted="false">スケジュール充電</string>
+  <string name="charging_diagnostics_condition_other" formatted="false">その他のOEMモード</string>
+  <string name="charging_diagnostics_capturing" formatted="false">充電信号を取得中…</string>
+  <string name="charging_diagnostics_captured" formatted="false">充電スナップショットを取得しました</string>
+  <string name="charging_diagnostics_capture_failed" formatted="false">充電スナップショットを取得できませんでした</string>
+  <string name="charging_diagnostics_privileged_hint" formatted="false">特権アクセスを使用すると、より多くの診断情報を取得できる場合があります。より有用なOEM充電上限レポートを作成するには、Shizukuまたはrootアクセスを許可し、詳細設定で特権アクセスを有効にしてください。</string>
+  <plurals name="charging_diagnostics_snapshot_count">
+    <item quantity="other">%1$d件のスナップショットを取得しました。タップして比較を確認します。</item>
+  </plurals>
+  <string name="charging_diagnostics_need_two" formatted="false">最初に2種類以上の充電モードを取得してください</string>
+  <string name="charging_diagnostics_cleared" formatted="false">充電スナップショットを削除しました</string>
+  <string name="charging_diagnostics_copy" formatted="false">クリップボードにコピー</string>
+  <string name="charging_diagnostics_save" formatted="false">保存</string>
+  <string name="charging_diagnostics_copied" formatted="false">レポートをコピーしました</string>
+  <string name="charging_diagnostics_help_steps" formatted="false">1. 端末を充電器から外し、設定スナップショットの取得中は接続しないでください。スナップショット間ではメーカーの充電保護設定だけを変更します。\n
+    2. 充電保護をオフにし、2–5秒待ってスナップショットを取得します。\n
+    3. 固定上限を選び、2–5秒待って取得します。可能なら別の上限で繰り返します。\n
+    4. アダプティブ、スマート、またはスケジュール充電を有効にし、2–5秒待って取得します。\n
+    5. 設定の比較で明確な結果が得られない場合は、充電中に同じ手順を任意で繰り返し、動作中だけ現れる状態を取得できます。\n
+    6. 比較レポートを作成して確認します。データはフィルターされ、潜在的に機密な値は隠されますが、共有前にレポート全体を確認してください。</string>
+  <string name="charging_diagnostics_help_contact" formatted="false">レポートを確認後、コピーまたは保存し、メールで <a href="mailto:tomasz@swistak.codes">tomasz@swistak.codes</a> へ送信してください。</string>
+
+  <string name="activity_until_target" formatted="true">%1$d%% まで</string>
+  <string name="activity_target_reached" formatted="true">目標に到達（%1$d%%）</string>
+
+  <string name="time_estimates_settings" formatted="false">時間の見積もり</string>
+  <string name="time_estimates_settings_summary" formatted="false">残り時間の計算方法と目標バッテリー残量を選択します。</string>
+  <string name="time_estimates_settings_help" formatted="false">これらの設定は Battery Monitor の時間見積もりを制御します。目標残量は見積もりにのみ影響し、充電の開始や停止は行いません。</string>
+  <string name="pref_cat_target_levels" formatted="false">目標残量</string>
+  <string name="pref_charging_target_mode" formatted="false">充電目標</string>
+  <string name="pref_charging_target_mode_summary_device" formatted="true">端末の充電上限：%1$d%%</string>
+  <string name="pref_charging_target_mode_summary_custom" formatted="false">カスタム目標</string>
+  <string name="pref_charging_target_mode_summary_default" formatted="false">固定された端末上限を検出できません — 100% を使用します。</string>
+  <string name="pref_charging_target_mode_summary_automatic_help" formatted="true">%1$s\n
+    \n
+    この値が正しくないように見える場合は、端末検出の改善に協力できます。診断を開き、ヘルプの手順に注意深く従ってOEM充電上限レポートを作成してください。</string>
+  <string name="pref_charging_target_mode_help" formatted="false">自動では、Battery Monitor が読み取れる場合は端末の固定上限を使用し、それ以外は 100% を使用します。アダプティブ充電の目標は引き続き 100% です。見積もりで端末の値を上書きするにはカスタムを選択します。</string>
+  <string name="pref_charging_target_mode_support_help" formatted="false">自動検出は、Google Pixel、Samsung Galaxy、Xiaomi/Redmi/POCO、OnePlus/Oppo/Realme、Sony Xperia、およびGrapheneOSまたはLineageOSを搭載した端末で動作する場合があります。rootまたはShizukuアクセスが利用できる場合は特に有効です。ソフトウェア信号に依存するため、記載したメーカーの端末でも利用可否や精度は保証されません。これらの系統の未検証モデルやOSバージョンでも動作する可能性がありますが、他メーカーの端末は現在自動検出されません。</string>
+  <string name="charging_target_mode_automatic" formatted="false">自動（推奨）</string>
+  <string name="charging_target_mode_custom" formatted="false">カスタム</string>
+  <string name="pref_custom_charging_target" formatted="false">カスタム充電目標</string>
+  <string name="pref_custom_charging_target_help" formatted="false">充電目標がカスタムの場合に、充電見積もりの終了残量を設定します。</string>
+  <string name="pref_discharging_target" formatted="false">放電目標</string>
+  <string name="pref_discharging_target_help" formatted="false">放電見積もりの終了残量を設定します。低残量アラームとは独立しています。</string>
+  <string name="pref_target_level_summary" formatted="true">%1$d%% まで見積もります。</string>
 </resources>
