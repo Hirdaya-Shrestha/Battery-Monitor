@@ -451,8 +451,8 @@
     \n
     Alarm „Zostaje w pełni naładowana” powiadomi Cię, gdy stan Twojej baterii zmieni się z „Ładowanie” na „W pełni naładowana”. Pamiętaj, że na wielu urządzeniach nie jest to koniecznie to samo co 100% nałdowania.\n
     \n
-\n
-Alarmy „Osiągnie limit ładowania” i „Osiągnie limit rozładowania” powiadomią Cię, gdy bateria osiągnie docelowy poziom ładowania lub rozładowania. Nie wymagają progu i zawsze podążają za bieżącymi ustawieniami celu.\n
+    \n
+    Alarmy „Osiągnie limit ładowania” i „Osiągnie limit rozładowania” powiadomią Cię, gdy bateria osiągnie docelowy poziom ładowania lub rozładowania. Nie wymagają progu i zawsze podążają za bieżącymi ustawieniami celu.\n
     \n
     Alarmy ładowania i temperatury wymagają od Ciebie ustawienia progu po wybraniu tego typu alarmu.\n
     \n
